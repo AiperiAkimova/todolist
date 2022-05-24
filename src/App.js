@@ -1,25 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import TodoInput from './components/ToDoInput';
+import TodoItem from './components/ToDoItem';
+import TodoContext from './store/context';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    
+
+
+  function App() {
+
+    const [todoItems, setTodoItems] = useState([])
+      const createTodoItem = (formItem) => {
+        setTodoItems((prevState) => {
+          return [...prevState, formItem]
+        });
+        };
+
+
+        const deleteTodoItem = (id) => {
+          const filteredItem = todoItems.filter((el) => {
+            if(el.id !== id){
+              return [el]
+              
+            }
+          }) 
+          setTodoItems(filteredItem)
+          }
+
+    return (
+      <TodoContext.Provider value={{createTodoItem: createTodoItem, 
+      deleteTodoItem: deleteTodoItem, item: todoItems}}>
+      <TodoInput />
+        
+      <TodoItem />
+  
+      </TodoContext.Provider>
+      );
+    }
 
 export default App;
